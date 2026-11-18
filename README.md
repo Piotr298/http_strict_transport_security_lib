@@ -40,3 +40,10 @@ A header such as `max-age=31536000; max-age=abc` returns `None`, because the
 last `max-age` wins and it is invalid.  If you need the first valid value
 instead, parse the header yourself; this library deliberately follows the
 browser rule of last-occurrence-wins.
+
+## Design notes
+
+The window stores values eagerly rather than keeping running aggregates. Running
+sums drift with floating point over long streams, and recomputing from a small
+buffer is cheap enough that the drift is not worth the speed.
+
